@@ -3,5 +3,32 @@ server:
   port: 8003
 
 spring:
+  application:
+    name: Finance-Stock
+
+  data:
+    mongodb:
+      uri: mongodb+srv://financeclusteradmin:?DB12541@cluster0.z8e18.gcp.mongodb.net/finance_stock?retryWrites=true&w=majority
+      database: finance_stock
+  boot:
+    admin:
+      client:
+        url: https://kinelib-gateway-ci-api-stg.herokuapp.com
+        instance:
+          management-url: https://kinelib-gateway-ci-api-stg.herokuapp.com/actuator
+          health-url: https://kinelib-gateway-ci-api-stg.herokuapp.com/actuator/health
+          service-url: https://kinelib-gateway-ci-api-stg.herokuapp.com
+
   main:
     allow-bean-definition-overriding: true
+
+management:
+  security:
+    enabled: false
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: '*'

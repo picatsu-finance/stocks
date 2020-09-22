@@ -1,9 +1,11 @@
 package com.picatsu.financestock.util;
 
 import com.picatsu.financestock.model.TickerModel;
+import com.picatsu.financestock.repository.TickerRepository;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 
@@ -17,7 +19,9 @@ import java.util.List;
 @AllArgsConstructor
 public class CustomFunctions {
 
-    public static List<TickerModel> loadData() throws IOException {
+    @Autowired
+    private  TickerRepository tickerRepository;
+    public  List<TickerModel> loadData() throws IOException {
 
         List<TickerModel> liste = new ArrayList<>();
         String[] fileNames = new String[]{"listing_status.csv", "wilshire_5000_stocks.csv"};
@@ -48,15 +52,21 @@ public class CustomFunctions {
 
 
 
-    private static void addToArray(List<TickerModel> liste, String myLine) {
+    private void addToArray(List<TickerModel> liste, String myLine) {
         String[] infos = myLine.split(",");
-        if(infos.length > 1 ) {
+        if (infos.length > 1) {
             TickerModel res = new TickerModel(infos[0], infos[1]);
-            if(!liste.contains(res)) {
+          /*  if(!liste.contains(res)) {
                 liste.add(res);
+            }*/
+            if(myLine.toLowerCase().contains("tesla")) {
+                System.out.println(myLine);
+            }
+            if (!tickerRepository.existsById(res.getCode())  ) {
+
+                tickerRepository.insert(res);
             }
 
         }
-
     }
 }

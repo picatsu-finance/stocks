@@ -56,15 +56,5 @@ public class StockService {
         return null;
     }
 
-    public List<TickerModel> findTickers(String str) throws IOException {
 
-        List<TickerModel> values = new ArrayList<>();
-        for (TickerModel entry : CustomFunctions.loadData() ) {
-            if(( (entry.getCode() + entry.getName() ).toLowerCase()).contains(str.toLowerCase()) ) {
-                values.add (entry);
-            }
-        }
-
-        return values ;
-    }
 }
