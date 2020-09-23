@@ -1,9 +1,9 @@
 package com.picatsu.financestock.service;
 
 
-import com.picatsu.financestock.model.TickerModel;
-import com.picatsu.financestock.util.CustomFunctions;
+
 import lombok.Getter;
+
 import org.patriques.AlphaVantageConnector;
 import org.patriques.input.timeseries.Interval;
 import org.patriques.input.timeseries.OutputSize;
@@ -11,32 +11,21 @@ import org.patriques.output.AlphaVantageException;
 import org.patriques.output.timeseries.IntraDay;
 import org.patriques.output.timeseries.data.StockData;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import yahoofinance.Stock;
 
-import javax.annotation.PostConstruct;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 @Component
-@Getter
 public class StockService {
 
 
-
+    @Autowired
     private org.patriques.TimeSeries stockTimeSeries;
 
 
-    public StockService() {
-        String apiKey = "63NJUA45A97BF6OI";
-        int timeout = 3000;
-        stockTimeSeries = new org.patriques.TimeSeries(new AlphaVantageConnector(apiKey, timeout));
-
-    }
-
-    public List<StockData> getTS(String code ) {
+    public List<StockData> getTS(String code) {
 
         try {
             IntraDay response = stockTimeSeries

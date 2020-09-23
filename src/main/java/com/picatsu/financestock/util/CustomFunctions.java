@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +22,7 @@ public class CustomFunctions {
 
     @Autowired
     private  TickerRepository tickerRepository;
+
     public  List<TickerModel> loadData() throws IOException {
 
         List<TickerModel> liste = new ArrayList<>();
@@ -50,7 +52,13 @@ public class CustomFunctions {
         return liste;
     }
 
-
+    public void displayStackTraceIP(String path, HttpServletRequest request ) {
+        String ipAddress = request.getHeader("X-Forward-For");
+        if(ipAddress== null){
+            ipAddress = request.getRemoteAddr();
+        }
+        log.info("path = " + path + " IP : " +  ipAddress);
+    }
 
     private void addToArray(List<TickerModel> liste, String myLine) {
         String[] infos = myLine.split(",");

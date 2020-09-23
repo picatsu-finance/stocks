@@ -1,4 +1,6 @@
-
+api:
+  key: '63NJUA45A97BF6OI'
+  timeout: 5000
 server:
   port: 8003
 

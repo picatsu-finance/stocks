@@ -4,11 +4,19 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
 import org.patriques.AlphaVantageConnector;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class Config {
+
+    @Value("${api.key}")
+    private String apiKey;
+
+    @Value("${api.timeout}")
+    private int timeout;
+
 
     @Bean
     public OpenAPI customOpenAPI() {
@@ -23,10 +31,14 @@ public class Config {
 
     @Bean
     public AlphaVantageConnector beanAlphaApiConnector() {
-        String apiKey = "63NJUA45A97BF6OI";
-        int timeout = 3000;
-        AlphaVantageConnector apiConnector = new AlphaVantageConnector(apiKey, timeout);
-        return apiConnector;
+
+        return new AlphaVantageConnector(apiKey, timeout);
+    }
+
+    @Bean
+    public org.patriques.TimeSeries beanTimeSeries() {
+
+        return new org.patriques.TimeSeries(beanAlphaApiConnector());
     }
 
 }
