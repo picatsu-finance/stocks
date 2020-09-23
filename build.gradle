@@ -28,6 +28,8 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web-services'
 	compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-mongodb', version: '2.3.4.RELEASE'
 
+	compile group: 'de.codecentric', name: 'spring-boot-admin-starter-client', version: '2.3.0'
+
 	compile group: 'org.springdoc', name: 'springdoc-openapi-ui', version: '1.4.6'
 	compile group: 'org.springframework.boot', name: 'spring-boot-starter-webflux', version: '2.3.3.RELEASE'
 	compile group: 'com.yahoofinance-api', name: 'YahooFinanceAPI', version: '3.15.0'
