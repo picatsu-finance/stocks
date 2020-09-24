@@ -1,0 +1,43 @@
+api:
+  key: '63NJUA45A97BF6OI'
+  timeout: 5000
+server:
+  port: 8003
+
+spring:
+  application:
+    name: Finance-Stock
+
+  main:
+    allow-bean-definition-overriding: true
+  boot:
+    admin:
+      client:
+        url: http://94.239.109.172:9090
+        instance:
+          management-url: http://94.239.109.172:9090/actuator
+          health-url: http://94.239.109.172:9090/actuator/health
+          service-url: http://94.239.109.172:9090
+
+  data:
+    mongodb:
+      uri: mongodb+srv://financeclusteradmin:?DB12541@cluster0.z8e18.gcp.mongodb.net/finance_stock?retryWrites=true&w=majority
+      database: finance_stock
+
+
+management:
+  security:
+    enabled: false
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+
+
+
+
+
+
