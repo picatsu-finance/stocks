@@ -2,16 +2,13 @@ package com.picatsu.financestock.service;
 
 
 
-import lombok.Getter;
-
-import org.patriques.AlphaVantageConnector;
 import org.patriques.input.timeseries.Interval;
 import org.patriques.input.timeseries.OutputSize;
 import org.patriques.output.AlphaVantageException;
 import org.patriques.output.timeseries.IntraDay;
 import org.patriques.output.timeseries.data.StockData;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

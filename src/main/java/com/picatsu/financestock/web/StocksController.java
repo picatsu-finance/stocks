@@ -16,6 +16,7 @@ import java.util.List;
 @RequestMapping(value = "/api/v1/stocks")
 @RestController("StocksController")
 @Slf4j
+@CrossOrigin
 public class StocksController {
 
     @Autowired

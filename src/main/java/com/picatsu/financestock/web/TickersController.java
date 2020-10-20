@@ -20,6 +20,7 @@ import java.util.stream.Stream;
 @RequestMapping(value = "/api/v1/tickers")
 @RestController("TickersController")
 @Slf4j
+@CrossOrigin
 public class TickersController {
 
     @Autowired

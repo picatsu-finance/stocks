@@ -20,7 +20,7 @@ import java.util.Map;
 @RequestMapping(value = "/api/v1/yahoo")
 @RestController("YahooStocksController")
 @Slf4j
-
+@CrossOrigin
 public class YahooController {
 
     @Autowired
