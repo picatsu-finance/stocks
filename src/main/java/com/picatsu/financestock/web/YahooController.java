@@ -1,6 +1,7 @@
 package com.picatsu.financestock.web;
 
 import com.picatsu.financestock.util.CustomFunctions;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,7 @@ public class YahooController {
     private CustomFunctions customFunctions;
 
     @GetMapping(value = "/stock/{code}")
+    @Operation(summary = "get stock by code")
     public BigDecimal yahooGetByCode(@PathVariable String code, HttpServletRequest request) throws IOException {
 
         customFunctions.displayStackTraceIP("/api/v1/yahoo/stock/{code}", request);
@@ -34,6 +36,7 @@ public class YahooController {
     }
 
     @GetMapping(value = "/stock/all-infos/{code}")
+    @Operation(summary = "get all infos for a stock by code")
     public Stock yahooGetByCodeAll(@PathVariable String code, HttpServletRequest request) throws IOException {
 
         customFunctions.displayStackTraceIP("/api/v1/yahoo/stock/all-infos/{code}", request);
@@ -49,6 +52,7 @@ public class YahooController {
     }
 
     @GetMapping(value = "/fx-quote")
+    @Operation(summary = "get specifi quote")
     public List<ImmutablePair<String, FxQuote>> yahooGetFx( HttpServletRequest request) throws IOException {
 
         customFunctions.displayStackTraceIP("/api/v1/yahoo/fx-quote", request);

@@ -4,6 +4,7 @@ package com.picatsu.financestock.web;
 
 import com.picatsu.financestock.service.StockService;
 import com.picatsu.financestock.util.CustomFunctions;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.slf4j.Slf4j;
 import org.patriques.output.timeseries.data.StockData;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,7 @@ public class StocksController {
     public CustomFunctions customFunctions;
 
     @GetMapping(value = "/{code}")
+    @Operation(summary = "get stock by code")
     public List<StockData> getByCode(@PathVariable String code, HttpServletRequest request){
 
         customFunctions.displayStackTraceIP("/api/v1/stocks/{code}", request);

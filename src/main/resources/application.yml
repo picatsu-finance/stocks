@@ -7,7 +7,9 @@ server:
 spring:
   application:
     name: Finance-Stock
-
+  output:
+    ansi:
+      enabled: ALWAYS
   main:
     allow-bean-definition-overriding: true
   boot:
