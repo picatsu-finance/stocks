@@ -1,5 +1,7 @@
 package com.picatsu.financestock.web;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.picatsu.financestock.service.StockService;
 import com.picatsu.financestock.util.CustomFunctions;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +28,8 @@ public class YahooController {
 
     @Autowired
     private CustomFunctions customFunctions;
+    @Autowired
+    private StockService stockService;
 
     @GetMapping(value = "/stock/{code}")
     @Operation(summary = "get stock by code")
@@ -33,6 +37,14 @@ public class YahooController {
 
         customFunctions.displayStackTraceIP("/api/v1/yahoo/stock/{code}", request);
         return YahooFinance.get(code).getQuote().getPrice();
+    }
+
+    @GetMapping(value = "/history/{code}")
+    @Operation(summary = "get stock by code")
+    public JsonNode yahooHistoryByCode(@PathVariable String code, HttpServletRequest request) throws IOException {
+
+        customFunctions.displayStackTraceIP("/api/v1/yahoo/stock/history/{code}", request);
+        return this.stockService.getStockHistory(code);
     }
 
     @GetMapping(value = "/stock/all-infos/{code}")
@@ -52,7 +64,7 @@ public class YahooController {
     }
 
     @GetMapping(value = "/fx-quote")
-    @Operation(summary = "get specifi quote")
+    @Operation(summary = "get specific quote")
     public List<ImmutablePair<String, FxQuote>> yahooGetFx( HttpServletRequest request) throws IOException {
 
         customFunctions.displayStackTraceIP("/api/v1/yahoo/fx-quote", request);

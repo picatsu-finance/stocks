@@ -10,10 +10,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -60,9 +63,16 @@ public class TickersController {
     public List<TickerModel> findCode(@PathVariable String str, HttpServletRequest request) {
 
         customFunctions.displayStackTraceIP("/api/v1/tickers/search-tickers/{str}", request);
-        return Stream.concat(this.tickerRepository.findByCodeContainsIgnoreCase(str).stream(),
-                this.tickerRepository.findByNameContainsIgnoreCase(str).stream()
-        ).collect(Collectors.toList());
+
+        return new ArrayList<>(
+                Stream.of(this.tickerRepository.findByCodeContainsIgnoreCase(str),
+                        this.tickerRepository.findByNameContainsIgnoreCase(str))
+                        .flatMap(List::stream)
+                        .collect(Collectors.toMap(TickerModel::getCode,
+                                d -> d,
+                                (TickerModel x, TickerModel y) -> x == null ? y : x))
+                        .values());
+
     }
 
     @PostMapping(value = "/create")
@@ -73,18 +83,26 @@ public class TickersController {
         return this.tickerRepository.insert(ticker);
     }
 
-    @DeleteMapping(value= "/{ticker-code}/delete")
+    @DeleteMapping(value= "/{ticker-code}")
     @Operation(summary = "delete ticker from db")
-    public Boolean deleteTicker(@PathVariable(value= "ticker-code") String code, HttpServletRequest request) {
+    public ResponseEntity<?> deleteTicker(@PathVariable(value= "ticker-code") String code, HttpServletRequest request) {
 
         customFunctions.displayStackTraceIP("/api/v1/tickers/{ticker-code}/delete", request);
-        try {
-            tickerRepository.deleteById(code);
-            return tickerRepository.existsById(code);
-        } catch (Exception e) {
-            return null;
+
+        long val =  tickerRepository.deleteAllByCode(code);
+
+        if ( val == 1) {
+            return new ResponseEntity<>("Deleted successfully ", HttpStatus.OK);
         }
+        if( val == 0 ) {
+            return new ResponseEntity<>("Cannot find Symbol : " + code, HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>("Obscure error ", HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+
+
 
 
 }

@@ -10,4 +10,5 @@ public interface TickerRepository extends MongoRepository<TickerModel, String> {
 
     List<TickerModel> findByCodeContainsIgnoreCase(String val);
     List<TickerModel> findByNameContainsIgnoreCase(String val);
+    long deleteAllByCode(String code);
 }
